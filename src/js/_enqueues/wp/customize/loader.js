@@ -38,7 +38,7 @@ window.wp = window.wp || {};
 
 			// Ensure the loader is supported.
 			// Check for settings, and whether we require CORS support.
-			if ( ! Loader.settings || ( ! $.support.cors && Loader.settings.isCrossDomain ) ) {
+			if ( ! Loader.settings ) {
 				return;
 			}
 
