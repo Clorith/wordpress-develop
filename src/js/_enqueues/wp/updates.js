@@ -2708,9 +2708,7 @@
 			var target = window.parent === window ? null : window.parent,
 				update;
 
-			$.support.postMessage = !! window.postMessage;
-
-			if ( false === $.support.postMessage || null === target || -1 !== window.parent.location.pathname.indexOf( 'update-core.php' ) ) {
+			if ( null === target || -1 !== window.parent.location.pathname.indexOf( 'update-core.php' ) ) {
 				return;
 			}
 
@@ -2738,9 +2736,7 @@
 			var target = window.parent === window ? null : window.parent,
 				install;
 
-			$.support.postMessage = !! window.postMessage;
-
-			if ( false === $.support.postMessage || null === target || -1 !== window.parent.location.pathname.indexOf( 'index.php' ) ) {
+			if ( null === target || -1 !== window.parent.location.pathname.indexOf( 'index.php' ) ) {
 				return;
 			}
 
