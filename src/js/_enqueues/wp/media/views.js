@@ -4,7 +4,8 @@
 
 var media = wp.media,
 	$ = jQuery,
-	l10n;
+	l10n,
+	transitions;
 
 media.isTouchDevice = ( 'ontouchend' in document );
 
@@ -19,7 +20,7 @@ delete l10n.settings;
 media.model.settings.post = media.view.settings.post;
 
 // Check if the browser supports CSS 3.0 transitions.
-$.support.transition = (function(){
+transitions = (function(){
 	var style = document.documentElement.style,
 		transitions = {
 			WebkitTransition: 'webkitTransitionEnd',
@@ -56,21 +57,15 @@ media.transition = function( selector, sensitivity ) {
 
 	sensitivity = sensitivity || 2000;
 
-	if ( $.support.transition ) {
-		if ( ! (selector instanceof $) ) {
-			selector = $( selector );
-		}
-
-		// Resolve the deferred when the first element finishes animating.
-		selector.first().one( $.support.transition.end, deferred.resolve );
-
-		// Just in case the event doesn't trigger, fire a callback.
-		_.delay( deferred.resolve, sensitivity );
-
-	// Otherwise, execute on the spot.
-	} else {
-		deferred.resolve();
+	if ( ! (selector instanceof $) ) {
+		selector = $( selector );
 	}
+
+	// Resolve the deferred when the first element finishes animating.
+	selector.first().one( transitions.end, deferred.resolve );
+
+	// Just in case the event doesn't trigger, fire a callback.
+	_.delay( deferred.resolve, sensitivity );
 
 	return deferred.promise();
 };
