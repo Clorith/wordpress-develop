@@ -654,8 +654,6 @@ window.wp = window.wp || {};
 		}
 	};
 
-	$.support.postMessage = !! window.postMessage;
-
 	/**
 	 * A communicator for sending data from one window to another over postMessage.
 	 *
