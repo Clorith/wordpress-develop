@@ -159,7 +159,6 @@
 			setShowTimeout();
 		});
 	}).on( 'heartbeat-tick.wp-auth-check', function( e, data ) {
-		console.log( 'Heartbeat ticking' );
 		if ( 'wp-auth-check' in data ) {
 			if ( ! data['wp-auth-check'] && wrap.hasClass( 'hidden' ) && ! tempHidden ) {
 				show();
