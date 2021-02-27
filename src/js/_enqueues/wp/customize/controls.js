@@ -7118,7 +7118,7 @@
 		}
 
 		// Bail if any incompatibilities are found.
-		if ( ! $.support.postMessage || ( ! $.support.cors && api.settings.isCrossDomain ) ) {
+		if ( ! $.support.cors && api.settings.isCrossDomain ) {
 			return;
 		}
 
