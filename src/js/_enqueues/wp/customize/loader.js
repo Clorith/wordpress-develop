@@ -16,11 +16,6 @@ window.wp = window.wp || {};
 	var api = wp.customize,
 		Loader;
 
-	$.extend( $.support, {
-		history: !! ( window.history && history.pushState ),
-		hashchange: ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7)
-	});
-
 	/**
 	 * Allows the Customizer to be overlayed on any page.
 	 *
@@ -42,8 +37,8 @@ window.wp = window.wp || {};
 			this.body = $( document.body );
 
 			// Ensure the loader is supported.
-			// Check for settings, postMessage support, and whether we require CORS support.
-			if ( ! Loader.settings || ! $.support.postMessage || ( ! $.support.cors && Loader.settings.isCrossDomain ) ) {
+			// Check for settings, and whether we require CORS support.
+			if ( ! Loader.settings || ( ! $.support.cors && Loader.settings.isCrossDomain ) ) {
 				return;
 			}
 
@@ -66,14 +61,10 @@ window.wp = window.wp || {};
 			});
 
 			// Add navigation listeners.
-			if ( $.support.history ) {
-				this.window.on( 'popstate', Loader.popstate );
-			}
+			this.window.on( 'popstate', Loader.popstate );
 
-			if ( $.support.hashchange ) {
-				this.window.on( 'hashchange', Loader.hashchange );
-				this.window.triggerHandler( 'hashchange' );
-			}
+			this.window.on( 'hashchange', Loader.hashchange );
+			this.window.triggerHandler( 'hashchange' );
 		},
 
 		popstate: function( e ) {
@@ -92,7 +83,7 @@ window.wp = window.wp || {};
 				Loader.open( Loader.settings.url + '?' + hash );
 			}
 
-			if ( ! hash && ! $.support.history ) {
+			if ( ! hash ) {
 				Loader.close();
 			}
 		},
@@ -161,13 +152,7 @@ window.wp = window.wp || {};
 			});
 
 			this.messenger.bind( 'close', function() {
-				if ( $.support.history ) {
-					history.back();
-				} else if ( $.support.hashchange ) {
-					window.location.hash = '';
-				} else {
-					Loader.close();
-				}
+				history.back();
 			});
 
 			// Prompt AYS dialog when navigating away.
@@ -193,9 +178,9 @@ window.wp = window.wp || {};
 			var hash = src.split( '?' )[1];
 
 			// Ensure we don't call pushState if the user hit the forward button.
-			if ( $.support.history && window.location.href !== src ) {
+			if ( window.location.href !== src ) {
 				history.pushState( { customize: src }, '', src );
-			} else if ( ! $.support.history && $.support.hashchange && hash ) {
+			} else if ( hash ) {
 				window.location.hash = 'wp_customize=on&' + hash;
 			}
 
